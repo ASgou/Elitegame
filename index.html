@@ -11,44 +11,24 @@
 	<body>
 
 	<script>
-	function referee(){
-    var training = {};
-    function learn(winner,loser){
-        if (!training[winner]) training[winner] = {};
-        training[winner][loser]=1;
+	function compare(choice1, choice2) {
+    choice1 = choices.indexOf(choice1);
+    choice2 = choices.indexOf(choice2);
+    if (choice1 == choice2) {
+        return "Tie";
     }
-    function judge(play1,play2){
-        if (play1 === play2){ return 'tie'; }
-        return ( (training[play1][play2] === 1)? play1: play2 )+' wins!';
+    if (choice1 == choices.length - 1 && choice2 == 0) {
+        return "Right wins";
     }
-    function validate(choice) {
-        return choice in training;
+    if (choice2 == choices.length - 1 && choice1 == 0) {
+        return "Left wins";
     }
-    function choices() {
-        return Object.keys(training);
+    if (choice1 > choice2) {
+        return "Left wins";
+    } else {
+        return "Right wins";
     }
-    return {
-        'learn': learn,
-        'judge': judge,
-        'validAction': validate,
-        'getChoices': choices
-    };
 }
-
-var ref = referee();
-ref.learn('rock','scissors');
-ref.learn('paper','rock');
-ref.learn('scissors','paper');
-
-do {
-    var userChoice = prompt("Do you choose rock, paper or scissors?");
-} while(!ref.validAction(userChoice))
-var choices = ref.getChoices(),
-    computerChoice = choices[Math.floor(Math.random()*choices.length)];
-
-console.log("User Choice: " + userChoice);
-console.log("Computer Choice: " + computerChoice);
-console.log(ref.judge(userChoice, computerChoice));
 	</script>
 </body>
 </html>
