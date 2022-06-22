@@ -8,89 +8,47 @@
 	<link rel="stylesheet" href="styles.css">
 	<title>Rock Paper Scissor</title>
 </head>
-<body>
-	<section class="game">
-		<!--Title -->
-		<div class="title">Rock Paper Scissor</div>
-		
-		<!--Display Score of player and computer -->
-		<div class="score">
-			<div class="playerScore">
-				<h2>Player</h2>
-				<p class="p-count count">0</p>
+	<body>
 
-			</div>	
-			<div class="computerScore">
-				<h2>Computer</h2>
-				<p class="c-count count">0</p>
-
-			</div>
-		</div>
-	
-		<div class="move">Choose your move</div>
-		
-		<!--Number of moves left before game ends -->
-		<div class="movesleft">Moves Left: 10 </div>
-		
-		<!--Options available to player to play game -->
-		<div class="options">
-			<button class="rock">Rock</button>
-			<button class="paper">Paper</button>
-			<button class="scissor">Scissors</button>
-		</div>
-		
-		<!--Final result of game -->
-		<div class="result"></div>
-		
-		<!--Reload the game -->
-		<button class="reload"></button>
-
-	</section>
-
-	<script src="app.js">
-		var userChoice = prompt("Do you choose rock, paper or scissors?");
-var computerChoice = Math.random();
-if (computerChoice < 0.34) {
-    computerChoice = "rock";
-} else if(computerChoice <= 0.67) {
-    computerChoice = "paper";
-} else {
-    computerChoice = "scissors";
-}
-
-var compare = function(choice1, choice2) {
-    if(choice1 === choice2) {
-    return "The result is a tie!";
-}
-if(choice1 === "rock") {
-    if(choice2 === "scissors") {
-        return "rock wins";
-    } else {
-        return "paper wins";
+	<script>
+	function referee(){
+    var training = {};
+    function learn(winner,loser){
+        if (!training[winner]) training[winner] = {};
+        training[winner][loser]=1;
     }
-}
-if(choice1 === "paper") {
-    if(choice2 === "rock") {
-        return "paper wins";
-    } else {
-        if(choice2 === "scissors") {
-            return "scissors wins";
+    function judge(play1,play2){
+        if (play1 === play2){ return 'tie'; }
+        return ( (training[play1][play2] === 1)? play1: play2 )+' wins!';
     }
-}
-if(choice1 === "scissors") {
-    if(choice2 === "rock") {
-        return "rock wins";
-    } else {
-        if(choice2 === "paper") {
-            return "scissors wins";
-        }
+    function validate(choice) {
+        return choice in training;
     }
+    function choices() {
+        return Object.keys(training);
+    }
+    return {
+        'learn': learn,
+        'judge': judge,
+        'validAction': validate,
+        'getChoices': choices
+    };
 }
-}
-};
+
+var ref = referee();
+ref.learn('rock','scissors');
+ref.learn('paper','rock');
+ref.learn('scissors','paper');
+
+do {
+    var userChoice = prompt("Do you choose rock, paper or scissors?");
+} while(!ref.validAction(userChoice))
+var choices = ref.getChoices(),
+    computerChoice = choices[Math.floor(Math.random()*choices.length)];
+
 console.log("User Choice: " + userChoice);
 console.log("Computer Choice: " + computerChoice);
-compare(userChoice, computerChoice);
+console.log(ref.judge(userChoice, computerChoice));
 	</script>
 </body>
 </html>
