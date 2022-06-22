@@ -8,22 +8,47 @@
 	<link rel="stylesheet" href="styles.css">
 	<title>Rock Paper Scissor</title>
 </head>
-	<body>
+<body>
+	<section class="game">
+		<!--Title -->
+		<div class="title">Rock Paper Scissor</div>
+		
+		<!--Display Score of player and computer -->
+		<div class="score">
+			<div class="playerScore">
+				<h2>Player</h2>
+				<p class="p-count count">0</p>
 
-	<script>
-	var choices = ["rock", "paper", "scissors"];
-var map = {};
+			</div>	
+			<div class="computerScore">
+				<h2>Computer</h2>
+				<p class="c-count count">0</p>
 
-choices.forEach(function(choice, i) {
-    map[choice] = {};
-    map[choice][choice] = "Was a tie"
-    map[choice][choices[(i+1)%3]] = choices[(i+1)%3] + " wins"
-    map[choice][choices[(i+2)%3]] = choice + " wins"
-})
+			</div>
+		</div>
+	
+		<div class="move">Choose your move</div>
+		
+		<!--Number of moves left before game ends -->
+		<div class="movesleft">Moves Left: 10 </div>
+		
+		<!--Options available to player to play game -->
+		<div class="options">
+			<button class="rock">Rock</button>
+			<button class="paper">Paper</button>
+			<button class="scissor">Scissors</button>
+		</div>
+		
+		<!--Final result of game -->
+		<div class="result"></div>
+		
+		<!--Reload the game -->
+		<button class="reload"></button>
 
-function compare(choice1, choice2) {
-    return (map[choice1] || {})[choice2] || "Invalid choice";
-}
+	</section>
+
+	<script src="app.js">
+	
 	</script>
 </body>
 </html>
